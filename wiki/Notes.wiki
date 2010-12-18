@@ -18,3 +18,12 @@ The first context is simply a stock quote context where the user will see most r
 The second context is an algorithm context where the user can build and test algorithms on specific stocks.
 
 The third context is an indicator context, here the user will be able to build and test  specific indicators. 
+
+= Autumn = 
+Autumn is the name of the overall backend daemon
+
+Montior is the deamon that handles monitoring algorithms and responding to buy/sell indicator signals.
+
+Interpreter is the daemon that handles interpreting user generated LUA scripts. 
+
+These may be all under one pid or seperated. 
