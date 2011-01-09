@@ -10,25 +10,11 @@ typedef struct _configuration
 
 	//Internal variables
 	char file_name[1024];
-	FILE * pfile;
-	
-	//storage for local modules to load
-	char load[16][64];
-	int load_count;
 
-	//Configuration variables
-	char quote_port_number[32];
-	char quote_ip_address[128];
-
-	char script_port_number[32];
-	char script_ip_address[128];
-
-	
-	char mysql_host[64];
-	char mysql_password[64];
-	char mysql_user[64];
-	char mysql_db[64];
-
+	//config variable
+	config_t * config;
+	config_setting_t * settings;
+	int count;
 
 } configuration;
 
