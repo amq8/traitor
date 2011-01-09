@@ -22,6 +22,7 @@ typedef struct _server
 	int newsockfd;
 	int portno;
 	int clientlength;
+	int listening;	
 
     char buffer[MAX_DATA];
     

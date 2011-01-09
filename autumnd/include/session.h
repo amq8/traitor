@@ -1,5 +1,5 @@
 #ifndef SESSION_H
-#define SESSION_
+#define SESSION_H
 
 
 #include <stdio.h>
@@ -9,15 +9,19 @@
 
 #include "./request/request.h"
 
+
+
 typedef struct _session
 {
 	uuid_t uuid;
 	struct _generic_request * request;
+
 	union 
 	{
 		struct _script_execution_request;
 		struct _quote_execution_reuqest;
 	} * request;
+	
 		
 
 

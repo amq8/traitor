@@ -12,8 +12,10 @@
 #include "server.h"
 #include "../defines.h"
 //#include "../request_handler/request_handler.h"
-//#include "../session/session.h"
-//#include "../session_manager/session_manager.h"
+#include "../session/session.h"
+#include "../session_manager/session_manager.h"
+
+static struct _session_manager * session_man;
 
 int init_server(server ** server, configuration * config)
 {
@@ -32,29 +34,46 @@ int init_server(server ** server, configuration * config)
 	(*server)->serv_addr.sin_port = htons((*server)->portno);
 	
 	bind( (*server)->sockfd, (struct sockaddr *) &(*server)->serv_addr,sizeof( (*server)->serv_addr));
+	pthread_create(&t, NULL, listener, (void * ) *server);	
 
-	
-	while(1)
-	{
-		listen( (*server)->sockfd, 10);
-		(*server)->clientlength = sizeof( (*server)->cli_addr);
-	
-		(*server)->newsockfd = accept( (*server)->sockfd, 
-										(struct sockaddr *) &(*server)->cli_addr, 
-										&(*server)->clientlength);
 
-		printf("Socket fd %d\n" , (*server)->newsockfd);
-		pthread_create(&t, NULL, handle_connection, ( void * ) (*server)->newsockfd );
 
 	}	
 
-	//n = read( (*server)->newsockfd, (*server)->buffer, MAX_DATA);
-	//printf("Buffer %s\n",(*server)->buffer);
+	return SUCCESS;
 }
 
-
-void *handle_connection(void * data)
+void *listener( (void * ) data);
 {
+	//this prolly needs to be locked here, and...
+	struct _server * server = (struct _server *) data;	
+	struct pthread_mutex_t  mutex;
+	
+	mutex = PTHREAD_MUTEX_INITIALIZER;
+	
+
+	while(*server->listening)
+	{
+		//I think this needs to be here. 
+		//not sure but id be concerned about newsockfd
+		pthread_mutex_lock(&mutex);	
+		listen( (*server)->sockfd, 10);
+		(*server)->clientlength = sizeof( (*server)->cli_addr);
+		printf("Socket fd %d\n" , (*server)->newsockfd);
+		(*server)->newsockfd = accept( (*server)->sockfd, 
+										(struct sockaddr *) &(*server)->cli_addr, 
+										&(*server)->clientlength);
+		
+		//This is where we add a new session to the session manager;
+		printf("Accepted new client\n");
+		pthread_create(&t, NULL, handle_request, ( void * ) (*server)->newsockfd );
+		pthread_mutex_unlock(&mutex);
+	}
+}
+
+void handle_request(void * data)
+{
+	print("Got it in new thread\n");
 		
 	int * n;
 	n = (int *) data;
@@ -63,9 +82,25 @@ void *handle_connection(void * data)
 	char buffer[1024];
 	bzero(buffer, 1024);
 
-	count = read( n, buffer, 1024);
-	printf("Buffer : %s\n",buffer);
-
-
+	while(count != 0)
+	{
+		count = read( n, buffer, 1024);
+		printf("Buffer : %s\n",buffer);
+		
+	}
 }
 
+
+int add_session(struct * _request)
+{
+
+	
+	
+
+
+	return SUCCESS;
+
+error:
+	return FAILURE
+
+}
