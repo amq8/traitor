@@ -1,8 +1,6 @@
 #ifndef REQUEST_H
 #define REQUEST_H
 
-
-
 #define SCRIPT_EXECUTION_REQUEST ( 1 << 0 )
 #define QUOTE_REQUEST			 ( 1 << 1 )
 
@@ -18,17 +16,17 @@
 //WE CAN OR THEM TOGETHER AND THEN DO A BIT
 //MASK ON THE OTHER SIDE.
 #define CAP_QUOTE				( 1 << 0 )
-#define CAP_SCRIPT				( 1 << 0 )
+#define CAP_SCRIPT				( 1 << 1 )
 
 
-typedef sturct _generic_message
+typedef struct _generic_message
 {
 	size_t size;
 	int message;
 
 } generic_message;
 
-typedef sturct _peer_notify_message
+typedef struct _peer_notify_message
 {
 
 	size_t size;
@@ -37,14 +35,14 @@ typedef sturct _peer_notify_message
 
 } peer_notify_message;
 
-typedef struct _generic_request
+struct _generic_request
 {
 	int size;
 	int type;
 	
 	void * data;
 
-} generic_request;
+};
 
 typedef struct _script_execution_request
 {
@@ -62,8 +60,5 @@ typedef struct _quote_request
 	
 
 } quote_request;
-
-
-
 
 #endif

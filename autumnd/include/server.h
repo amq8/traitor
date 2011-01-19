@@ -7,20 +7,20 @@
 #include <string.h>
 #include <unistd.h>
 #include <netdb.h>
-
 #include <netinet/in.h>
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 
-#include "../defines.h"
-#include "../parser/parser.h"
+#include "defines.h"
+#include "parser.h"
+#include "request.h"
 
-typedef struct _server
+struct _gbsd_server
 {
     int sockfd;
 	int newsockfd;
-	int portno;
+	long portno;
 	int clientlength;
 	int listening;	
 
@@ -33,11 +33,12 @@ typedef struct _server
 
 	struct _configuration * config;
 
-}server;
+};
 
-int init_server(server **server, configuration * configuration);
-//int register_request_handler(server ** server, request_handler * handler);
-
+int init_server(struct _gbsd_server **server, configuration * configuration);
+int add_session(struct  _generic_request * req);
+void *listener( void *  data);
+void handle_request(void * data);
 void *handle_connection(void * data);
 
 		

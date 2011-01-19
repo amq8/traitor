@@ -7,8 +7,14 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
-#include "./request/request.h"
+#include "request.h"
 
+union spec_request
+{
+		struct _script_execution_request * s_req;
+		struct _quote_execution_reuqest * q_req;
+
+};
 
 
 typedef struct _session
@@ -16,19 +22,14 @@ typedef struct _session
 	uuid_t uuid;
 	struct _generic_request * request;
 
-	union 
-	{
-		struct _script_execution_request;
-		struct _quote_execution_reuqest;
-	} * request;
-	
+	union spec_request * srequest;	
 		
 
 
 } session;
 
 
-int session_init( struct _session ** session, request * req);
+int session_init( struct _session ** session, struct _generic_request * req);
 int session_cleanup(struct _session ** session);
 
 #endif
