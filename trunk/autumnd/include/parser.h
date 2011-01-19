@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <libconfig.h>
 
 typedef struct _configuration
 {
@@ -12,7 +12,7 @@ typedef struct _configuration
 	char file_name[1024];
 
 	//config variable
-	config_t * config;
+	struct config_t * config;
 	config_setting_t * settings;
 	int count;
 
@@ -20,8 +20,8 @@ typedef struct _configuration
 
 
 int  parser_init( configuration ** config, const char * file);
-void parser_parse( configuration ** config);
+int parser_parse( configuration ** config);
 void parser_print_configuration(configuration ** config);
-int  parser_exit(configuration ** config);
+int  parser_cleanup(configuration ** config);
 
 #endif

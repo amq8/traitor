@@ -1,9 +1,9 @@
-
-#include "../parser/parser.h"
-
+#ifndef MYSQL_DRIVER_H
+#define MYSQL_DRIVER_H
 
 #include <mysql/my_global.h>
 #include <mysql/mysql.h>
+#include "parser.h"
 
 typedef struct _mysql_driver
 {
@@ -24,3 +24,5 @@ int mysql_driver_init(struct _mysql_driver ** sql, configuration **config);
 int mysql_driver_get_script(struct _mysql_driver ** sql);
 int mysql_driver_get_quote(struct _mysql_driver ** sql);
 int mysql_driver_close(struct _mysql_driver ** sql);
+	
+#endif
