@@ -1,0 +1,1 @@
+A simple lua based algorithmic trading platform
